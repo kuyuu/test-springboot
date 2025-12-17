@@ -16,7 +16,6 @@ public class HelloController {
 	
     @GetMapping
     public String hello() {
-        System.out.println("trigger build " + System.currentTimeMillis());
         return "hello";
     }
 
