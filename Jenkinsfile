@@ -33,7 +33,11 @@ pipeline {
 
         stage('Docker Run (Local)') {
             steps {
-                bat 'docker run -d --name my-springboot-app -p 8082:8080 my-springboot-app:latest'
+                bat '''
+                docker stop my-springboot-app || exit 0
+                docker rm my-springboot-app || exit 0
+                docker run -d --name my-springboot-app -p 8082:8080 my-springboot-app:latest
+                '''
             }
         }
     }
