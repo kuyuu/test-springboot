@@ -24,5 +24,24 @@ pipeline {
                 archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
+
+        stage('Docker Build') {
+            steps {
+                bat 'docker build -t my-springboot-app:latest .'
+            }
+        }
+
+        stage('Docker Run (Local)') {
+            steps {
+                bat '''
+                docker stop my-springboot-app || exit 0
+                docker rm my-springboot-app || exit 0
+                docker run -d ^
+                  --name my-springboot-app ^
+                  -p 8081:8080 ^
+                  my-springboot-app:latest
+                '''
+            }
+        }
     }
 }
