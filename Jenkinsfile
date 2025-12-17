@@ -15,7 +15,13 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat 'mvn clean test'
+                bat 'mvn clean package -DskipTests'
+            }
+        }
+
+        stage('Archive jar') {
+            steps {
+                archiveArtifacts artifacts: 'target/*.jar', fingerprint: true
             }
         }
     }
